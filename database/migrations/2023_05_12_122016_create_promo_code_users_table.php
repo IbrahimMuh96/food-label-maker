@@ -15,6 +15,8 @@ class CreatePromoCodeUsersTable extends Migration
     {
         Schema::create('promo_code_users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->references('id');
+            $table->foreignId('promo_code_id')->constrained('promo_codes')->references('id');
             $table->timestamps();
         });
     }

@@ -15,6 +15,13 @@ class CreatePromoCodesTable extends Migration
     {
         Schema::create('promo_codes', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique()->index();
+            $table->date('expiry_date')->nullable();
+            $table->enum('status', ['active', 'inactive']);
+            $table->enum('type', ['percentage', 'value']);
+            $table->integer('usage_count')->nullable();
+            $table->integer('usage_count_per_user')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -16,12 +16,17 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        Helper::validate($request, [
+        $validation = Validator::make($request->all(), [
             'name' => 'required|string|min:5|max:100',
             'email' => 'required|string|email:rfc,dns|unique:users,email',
             'password' => 'required|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/|confirmed',
             'role' => 'required|in:user,admin',
         ]);
+
+        if ($validation->fails()) {
+            return $this->error('Validation Error.', 422, $validation->errors());
+        }
+
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
@@ -38,10 +43,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        Helper::validate($request, [
+        $validation = Validator::make($request->all(), [
             'email' => 'required|string|email:rfc,dns|exists:users,email',
             'password' => 'required|min:6',
         ]);
+
+        if ($validation->fails()) {
+            return $this->error('Validation Error.', 422, $validation->errors());
+        }
 
         $user_auth = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
 

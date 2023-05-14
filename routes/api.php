@@ -19,9 +19,10 @@ use App\Http\Controllers\PromoCodeController;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::post('/promo-code/create', [PromoCodeController::class, 'createPromoCode'])->middleware('permission:create promo code');
-
-Route::post('/promo-code/use', [PromoCodeController::class, 'usePromoCode'])->middleware('permission:use promo code');
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/promo-code/create', [PromoCodeController::class, 'createPromoCode'])->middleware('permission:create promo code');
+    Route::post('/promo-code/use', [PromoCodeController::class, 'usePromoCode'])->middleware('permission:use promo code');
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -12,7 +12,7 @@ class PromoCodeController extends Controller
 {
     use ApiResponser;
 
-    public function create(Request $request)
+    public function createPromoCode(Request $request)
     {
         Helper::validate($request, [
             "promo_code" => "nullable|min:3|unique:promo_codes,code",
@@ -21,6 +21,7 @@ class PromoCodeController extends Controller
             "number_of_usage_per_user" => "nullable|integer",
             "users" => "nullable",
             "type" => "required|in:percentage,value",
+            "value" => "required|float",
         ]);
 
         $promo_code = PromoCodes::createPromoCode($request->all());
@@ -35,7 +36,7 @@ class PromoCodeController extends Controller
             "price" => "required|float"
         ]);
 
-        PromoCodes::
+        PromoCodes::usePromoCode($request->all());
 
     }
 }

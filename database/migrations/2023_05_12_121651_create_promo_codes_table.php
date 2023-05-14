@@ -19,6 +19,7 @@ class CreatePromoCodesTable extends Migration
             $table->date('expiry_date')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->enum('type', ['percentage', 'value']);
+            $table->float('discount');
             $table->enum('usage_type', ['public', 'private'])->default('public');
             $table->integer('usage_count')->nullable();
             $table->integer('usage_count_per_user')->nullable();

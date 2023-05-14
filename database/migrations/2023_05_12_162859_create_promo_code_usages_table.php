@@ -17,7 +17,7 @@ class CreatePromoCodeUsagesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->references('id');
             $table->foreignId('promo_code_id')->constrained('promo_codes')->references('id');
-            $table->integer('usage_count');
+            $table->integer('usage_count')->default(0);
             $table->timestamps();
         });
     }

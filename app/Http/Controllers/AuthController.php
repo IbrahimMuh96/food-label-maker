@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\User;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -15,21 +16,19 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validation = Validator::make($request->all(), [
+        Helper::validate($request, [
             'name' => 'required|string|min:5|max:100',
             'email' => 'required|string|email:rfc,dns|unique:users,email',
             'password' => 'required|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/|confirmed',
             'role' => 'required|in:user,admin',
         ]);
 
-        if ($validation->fails()) {
-            return $this->error('Validation Error.', 422, $validation->errors());
-        }
-
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
 
         $user = User::create($input);
+
+        $user->assignRole($request->role);
 
         $success['token'] = $user->createToken('app')->plainTextToken;
         $success['user'] = $user;
@@ -39,14 +38,10 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validation = Validator::make($request->all(), [
+        Helper::validate($request, [
             'email' => 'required|string|email:rfc,dns|exists:users,email',
             'password' => 'required|min:6',
         ]);
-
-        if ($validation->fails()) {
-            return $this->error('Validation Error.', 422, $validation->errors());
-        }
 
         $user_auth = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
 

@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $expiry_date
  * @property string $status
  * @property string $type
+ * @property string $usage_type
  * @property int|null $usage_count
  * @property int|null $usage_count_per_user
  * @property string|null $deleted_at
@@ -46,6 +47,7 @@ class PromoCode extends Model
 		'expiry_date',
 		'status',
 		'type',
+		'usage_type',
 		'usage_count',
 		'usage_count_per_user'
 	];

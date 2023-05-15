@@ -57,7 +57,7 @@ class PromoCodes
         $is_valid = self::validatePromoCode($promo_code);
 
         if(!$is_valid)
-            throw new \Exception('Promo Code Unavailable');
+            return null;
 
         $user_usage = PromoCodeUsage::where("user_id", Auth::id())->where("promo_code_id", $promo_code->id)->first();
 
@@ -116,8 +116,7 @@ class PromoCodes
 
         if($promo_code->usage_count_per_user){
             $user_usage = $promo_code_usages->where('user_id', Auth::id())->first();
-
-            if($user_usage && ($user_usage->usage_count >= $promo_code->usage_count)){
+            if($user_usage && ($user_usage->usage_count >= $promo_code->usage_count_per_user)){
                 return false;
             }
         }

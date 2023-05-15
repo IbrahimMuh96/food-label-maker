@@ -8,12 +8,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class PromoCode
- * 
+ *
  * @property int $id
  * @property string $code
  * @property Carbon|null $expiry_date
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property Collection|PromoCodeUsage[] $promo_code_usages
  * @property Collection|User[] $users
  *
@@ -34,7 +35,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PromoCode extends Model
 {
-	use SoftDeletes;
+	use SoftDeletes, HasFactory;
 	protected $table = 'promo_codes';
 
 	protected $casts = [

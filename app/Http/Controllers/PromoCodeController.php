@@ -48,7 +48,7 @@ class PromoCodeController extends Controller
     public function usePromoCode(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            "promo_code" => "required|min:3",
+            "promo_code" => "required|min:3|exists:promo_codes,code",
             "price" => "required"
         ]);
 
@@ -57,6 +57,11 @@ class PromoCodeController extends Controller
         }
 
         $promo_code = PromoCodes::usePromoCode($request->all());
+
+        if(!$promo_code) {
+            return $this->error( 'Invalid Promo Code', 404);
+        }
+
         return $this->success(PromoCodeDiscountResource::make($promo_code), 'Promo Code Applied');
     }
 }

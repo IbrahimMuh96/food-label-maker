@@ -42,4 +42,30 @@ To use this project, follow the steps below:
 
 > php artisan serve
 
+## Endpoints
+
+- Register API creates a user/admin to be able to use the endpoints.
+> POST api/register
+
+- Login API enables user/admin to have a authorized token.
+> POST api/login
+
+- Create promo code API. And only used by admin
+> POST api/promo-code/create
+
+- Use promo code API allows the user to use the promo code    
+> POST api/promo-code/use
+
+
+## Testing
+
+To test the features:
+
+1. Test the authurization of creating and using Promo Codes:
+
+> php artisan test tests/Feature/PromoCodeUsageTest.php
+
+2. Test the validty of using Promo Codes:
+
+> php artisan test tests/Feature/PromoCodeTest.php
 
